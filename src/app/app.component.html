@@ -57,46 +57,51 @@
   aria-labelledby="exampleModalLabel"
   aria-hidden="true"
 >
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-dialog-centered">
     <ng-container *ngIf="character$ | async as character">
       <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">
-            {{ character.name }}
-          </h5>
-          <button
-            type="button"
-            class="btn-close"
-            data-bs-dismiss="modal"
-            aria-label="Close"
-          ></button>
-        </div>
-        <div class="modal-body">
-          <table class="table table-borderless">
-            <tr>
-              <th>Especie</th>
-              <td>{{ character.species }}</td>
-            </tr>
-            <tr>
-              <th>Estado</th>
-              <td>{{ character.status }}</td>
-            </tr>
-            <tr>
-              <th>Tipo</th>
-              <td>{{ character.type }}</td>
-            </tr>
-            <tr>
-              <th>Genero</th>
-              <td>{{ character.gender }}</td>
-            </tr>
-            <tr>
-              <th>Specie</th>
-              <td>{{ character.species }}</td>
-            </tr>
-          </table>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+        <div class="card py-2 px-2">
+          <div class="row g-0">
+            <div class="col-md-6">
+              <img
+                [src]="character.image"
+                class="img-fluid rounded-circle"
+                [alt]="character.name"
+              />
+            </div>
+            <div class="col-md-6">
+              <div class="card-body">
+                <h5 class="card-title pt-1 text-center">
+                  <b>{{ character.name }}</b>
+                  <hr />
+                </h5>
+                <table class="table table-borderless">
+                  <tr>
+                    <th>Especie</th>
+                    <td>{{ character.species }}</td>
+                  </tr>
+                  <tr>
+                    <th>Estado</th>
+                    <td>{{ character.status }}</td>
+                  </tr>
+                  <tr>
+                    <th>Tipo</th>
+                    <td>{{ character.type }}</td>
+                  </tr>
+                  <tr>
+                    <th>Genero</th>
+                    <td>{{ character.gender }}</td>
+                  </tr>
+                  <tr>
+                    <th>Specie</th>
+                    <td>{{ character.species }}</td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+          </div>
+          <br>
+          <button type="button" class="btn btn-secondary fs-4 rounded-0" data-bs-dismiss="modal">
             Cerrar
           </button>
         </div>
