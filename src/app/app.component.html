@@ -1,15 +1,23 @@
 <div class="container p-5">
   <br />
-  <h1 class="display-5 fw-bold text-center d-flex justify-content-between">
+  <h1
+    class="
+      display-5
+      fw-bold
+      text-center
+      d-flex
+      justify-content-between
+      align-items-center
+    "
+  >
     {{ title }}
-    <button
-      type="button"
-      class="btn btn-default btn-lg"
+    <a
+      class="btn btn-default fs-2"
       data-bs-toggle="modal"
       data-bs-target="#exampleModal1"
     >
       <i class="bi bi-search"></i>
-    </button>
+    </a>
   </h1>
   <hr class="py-1 text-dark" />
   <br />
@@ -57,12 +65,12 @@
   aria-labelledby="exampleModalLabel"
   aria-hidden="true"
 >
-  <div class="modal-dialog modal-dialog-centered">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
     <ng-container *ngIf="character$ | async as character">
       <div class="modal-content">
         <div class="card py-2 px-2">
           <div class="row g-0">
-            <div class="col-md-6">
+            <div class="col-md-6 text-center">
               <img
                 [src]="character.image"
                 class="img-fluid rounded-circle"
@@ -93,15 +101,22 @@
                     <td>{{ character.gender }}</td>
                   </tr>
                   <tr>
-                    <th>Specie</th>
-                    <td>{{ character.species }}</td>
+                    <th>Origen</th>
+                    <td>{{ character.origin.name }}</td>
+                  </tr>
+                  <tr>
+                    <th>Localizacion</th>
+                    <td>{{ character.location.name }}</td>
                   </tr>
                 </table>
               </div>
             </div>
           </div>
-          <br>
-          <button type="button" class="btn btn-secondary fs-4 rounded-0" data-bs-dismiss="modal">
+          <button
+            type="button"
+            class="btn btn-secondary mt-2 fs-4 rounded-0"
+            data-bs-dismiss="modal"
+          >
             Cerrar
           </button>
         </div>
