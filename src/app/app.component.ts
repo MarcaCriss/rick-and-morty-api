@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { RickService } from './services/rick.service';
-import { Character } from './interfaces/rick.interface';
+import { Character, Data } from './interfaces/rick.interface';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -8,29 +9,39 @@ import { Character } from './interfaces/rick.interface';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent implements OnInit {
-  title = 'rick-and-morty-api';
-  characters: Character[] = [];
-  character!: Character;
+  title = 'Personajes de la serie "Rick And Morty"';
+  character$!: Observable<Character>;
+  characters$!: Observable<Character[]>;
+  next = 1;
 
-  constructor(private rick: RickService) {}
+  constructor(private rick: RickService ) {}
 
   ngOnInit() {
-    this.rick.getAllCharacters().subscribe(
-      (data: any) => {
-        this.characters = data.results;
-      }
-    );
+    this.getAllCharacters();
+  }
+
+  pagesPlus() {
+    this.next++;
+    this.getAllCharacters();
+  }
+
+  pagesMinus() {
+    if (this.next >= 1) {
+      this.next--;
+      this.getAllCharacters();
+    }
+  }
+
+  getAllCharacters() {
+    this.characters$ = this.rick.getAllCharacters(this.next);
   }
 
   getCharacter(id: number) {
-    this.rick.getCharacter(id).subscribe(
-      (data: any) => {
-        this.character = data
-      }
-    )
+    this.character$ = this.rick.getCharacter(id);
   }
 
   filterCharacter(name: string) {
-
+    this.characters$ = this.rick.filterCharacter(name);
   }
+
 }
