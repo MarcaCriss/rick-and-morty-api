@@ -1,54 +1,94 @@
 <div class="container p-5">
-  <br>
-  <h1 class="display-5 fw-bold text-center">
-    Personajes de la serie Rick And Morty
-    <hr class="py-1 text-dark">
+  <br />
+  <h1 class="display-5 fw-bold text-center d-flex justify-content-between">
+    {{ title }}
+    <button
+      type="button"
+      class="btn btn-default btn-lg"
+      data-bs-toggle="modal"
+      data-bs-target="#exampleModal1"
+    >
+      <i class="bi bi-search"></i>
+    </button>
   </h1>
-  <br>
+  <hr class="py-1 text-dark" />
+  <br />
   <div class="row">
-    <div class="col-3" *ngFor="let character of characters">
+    <div class="col-3" *ngFor="let character of characters$ | async">
       <div class="card border-0 rounded-3 mt-5">
-        <img [src]="character.image" [alt]="character.name" class="card-image-top rounded-circle">
+        <img
+          [src]="character.image"
+          [alt]="character.name"
+          class="card-image-top rounded-circle"
+        />
         <div class="card-body text-center">
           <div class="card-title">{{ character.name }}</div>
-          <a role="button" (click)="getCharacter(character.id)" class="card-link text-decoration-none" data-bs-toggle="modal" data-bs-target="#exampleModal">
+          <a
+            role="button"
+            (click)="getCharacter(character.id)"
+            class="card-link text-decoration-none"
+            data-bs-toggle="modal"
+            data-bs-target="#exampleModal"
+          >
             Mas detalles...
           </a>
         </div>
       </div>
     </div>
   </div>
+  <br />
+  <nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-end">
+      <li class="page-item" [ngClass]="{ disabled: next === 1 }">
+        <a role="button" class="page-link" (click)="pagesMinus()"> Anterior </a>
+      </li>
+      <li class="page-item">
+        <a role="button" class="page-link" (click)="pagesPlus()"> Siguiente </a>
+      </li>
+    </ul>
+  </nav>
 </div>
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div
+  class="modal fade"
+  id="exampleModal"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
   <div class="modal-dialog">
-    <div class="modal-content" *ngIf="character">
+    <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">
-          {{ character.name }}
+          {{ (character$ | async)?.name }}
         </h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
       </div>
       <div class="modal-body">
         <table class="table table-borderless">
           <tr>
             <th>Especie</th>
-            <td>{{ character.species }}</td>
+            <td>{{ (character$ | async)?.species }}</td>
           </tr>
           <tr>
             <th>Estado</th>
-            <td>{{ character.status }}</td>
+            <td>{{ (character$ | async)?.status }}</td>
           </tr>
           <tr>
             <th>Tipo</th>
-            <td>{{ character.type }}</td>
+            <td>{{ (character$ | async)?.type }}</td>
           </tr>
           <tr>
             <th>Genero</th>
-            <td>{{ character.gender }}</td>
+            <td>{{ (character$ | async)?.gender }}</td>
           </tr>
           <tr>
             <th>Specie</th>
-            <td>{{ character.species }}</td>
+            <td>{{ (character$ | async)?.species }}</td>
           </tr>
         </table>
       </div>
@@ -57,6 +97,23 @@
           Cerrar
         </button>
       </div>
+    </div>
+  </div>
+</div>
+<div
+  class="modal fade"
+  id="exampleModal1"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <input
+        class="form-control fs-5"
+        #search
+        (keyup)="filterCharacter(search.value)"
+      />
     </div>
   </div>
 </div>

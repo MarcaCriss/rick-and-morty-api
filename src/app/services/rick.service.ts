@@ -1,25 +1,36 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
-import { Data } from '../interfaces/rick.interface';
+import { Character, Data } from '../interfaces/rick.interface';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class RickService {
+  constructor(private http: HttpClient) {}
 
-  constructor(private http: HttpClient) { }
-
-  getAllCharacters() {
-    return this.http.get(environment.urlBase + 'character');
+  getAllCharacters(page?: number): Observable<Character[]> {
+    return this.http
+      .get<Data>(`${environment.urlBase}character/?page=${page}`)
+      .pipe(
+        map((data: Data) => {
+          return data.results;
+        })
+      );
   }
 
-  getCharacter(id: number) {
-    return this.http.get(`${environment.urlBase}character/${id}`);
+  getCharacter(id: number): Observable<Character> {
+    return this.http.get<Character>(`${environment.urlBase}character/${id}`);
   }
 
-  filterCharacter(name: string) {
-    return this.http.get(`${environment.urlBase}character`)
+  filterCharacter(name: string): Observable<Character[]> {
+    return this.http.get<Data>(`${environment.urlBase}character/?name=${name}`)
+    .pipe(
+      map((data: Data) => {
+        return data.results;
+      })
+    );
   }
 }
