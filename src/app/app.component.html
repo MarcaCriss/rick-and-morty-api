@@ -22,7 +22,9 @@
           class="card-image-top rounded-circle"
         />
         <div class="card-body text-center">
-          <div class="card-title">{{ character.name }}</div>
+          <div class="card-title">
+            <h3>{{ character.name }}</h3>
+          </div>
           <a
             role="button"
             (click)="getCharacter(character.id)"
@@ -42,7 +44,7 @@
       <li class="page-item" [ngClass]="{ disabled: next === 1 }">
         <a role="button" class="page-link" (click)="pagesMinus()"> Anterior </a>
       </li>
-      <li class="page-item">
+      <li class="page-item" [ngClass]="{ disabled: pages === next }">
         <a role="button" class="page-link" (click)="pagesPlus()"> Siguiente </a>
       </li>
     </ul>
@@ -56,48 +58,50 @@
   aria-hidden="true"
 >
   <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">
-          {{ (character$ | async)?.name }}
-        </h5>
-        <button
-          type="button"
-          class="btn-close"
-          data-bs-dismiss="modal"
-          aria-label="Close"
-        ></button>
+    <ng-container *ngIf="character$ | async as character">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">
+            {{ character.name }}
+          </h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <table class="table table-borderless">
+            <tr>
+              <th>Especie</th>
+              <td>{{ character.species }}</td>
+            </tr>
+            <tr>
+              <th>Estado</th>
+              <td>{{ character.status }}</td>
+            </tr>
+            <tr>
+              <th>Tipo</th>
+              <td>{{ character.type }}</td>
+            </tr>
+            <tr>
+              <th>Genero</th>
+              <td>{{ character.gender }}</td>
+            </tr>
+            <tr>
+              <th>Specie</th>
+              <td>{{ character.species }}</td>
+            </tr>
+          </table>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+            Cerrar
+          </button>
+        </div>
       </div>
-      <div class="modal-body">
-        <table class="table table-borderless">
-          <tr>
-            <th>Especie</th>
-            <td>{{ (character$ | async)?.species }}</td>
-          </tr>
-          <tr>
-            <th>Estado</th>
-            <td>{{ (character$ | async)?.status }}</td>
-          </tr>
-          <tr>
-            <th>Tipo</th>
-            <td>{{ (character$ | async)?.type }}</td>
-          </tr>
-          <tr>
-            <th>Genero</th>
-            <td>{{ (character$ | async)?.gender }}</td>
-          </tr>
-          <tr>
-            <th>Specie</th>
-            <td>{{ (character$ | async)?.species }}</td>
-          </tr>
-        </table>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-          Cerrar
-        </button>
-      </div>
-    </div>
+    </ng-container>
   </div>
 </div>
 <div
@@ -111,8 +115,9 @@
     <div class="modal-content">
       <input
         class="form-control fs-5"
-        #search
-        (keyup)="filterCharacter(search.value)"
+        [(ngModel)]="search"
+        (ngModelChange)="changeValueSearch()"
+        (keypress)="filterCharacter()"
       />
     </div>
   </div>

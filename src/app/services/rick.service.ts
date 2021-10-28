@@ -9,26 +9,19 @@ import { map } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class RickService {
-  constructor(private http: HttpClient) {}
+  pages = 0;
 
-  getAllCharacters(page?: number): Observable<Character[]> {
-    return this.http
-      .get<Data>(`${environment.urlBase}character/?page=${page}`)
-      .pipe(
-        map((data: Data) => {
-          return data.results;
-        })
-      );
-  }
+  constructor(private http: HttpClient) {}
 
   getCharacter(id: number): Observable<Character> {
     return this.http.get<Character>(`${environment.urlBase}character/${id}`);
   }
 
-  filterCharacter(name: string): Observable<Character[]> {
-    return this.http.get<Data>(`${environment.urlBase}character/?name=${name}`)
+  filterCharacter(name = '', page: number): Observable<Character[]>{
+    return this.http.get<Data>(`${environment.urlBase}character/?page=${page}&name=${name}`)
     .pipe(
       map((data: Data) => {
+        this.pages = data.info.pages;
         return data.results;
       })
     );

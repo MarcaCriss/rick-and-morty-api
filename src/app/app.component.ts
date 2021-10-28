@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { RickService } from './services/rick.service';
-import { Character, Data } from './interfaces/rick.interface';
+import { Character } from './interfaces/rick.interface';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -13,35 +13,41 @@ export class AppComponent implements OnInit {
   character$!: Observable<Character>;
   characters$!: Observable<Character[]>;
   next = 1;
+  search = '';
 
   constructor(private rick: RickService ) {}
 
   ngOnInit() {
-    this.getAllCharacters();
+    this.filterCharacter();
   }
 
   pagesPlus() {
     this.next++;
-    this.getAllCharacters();
+    this.filterCharacter();
   }
 
   pagesMinus() {
-    if (this.next >= 1) {
+    if (this.next > 1) {
       this.next--;
-      this.getAllCharacters();
+      this.filterCharacter();
     }
   }
 
-  getAllCharacters() {
-    this.characters$ = this.rick.getAllCharacters(this.next);
+  get pages() {
+    return this.rick.pages;
   }
 
   getCharacter(id: number) {
     this.character$ = this.rick.getCharacter(id);
   }
 
-  filterCharacter(name: string) {
-    this.characters$ = this.rick.filterCharacter(name);
+  filterCharacter() {
+    this.characters$ = this.rick.filterCharacter(this.search, this.next);
+  }
+
+  changeValueSearch() {
+    this.next = 1;
+    this.characters$ = this.rick.filterCharacter(this.search, this.next);
   }
 
 }
