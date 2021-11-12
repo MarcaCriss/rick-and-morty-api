@@ -1,13 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { RickService } from './../../services/rick.service';
-import { Character } from './../../interfaces/rick.interface';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Observable } from 'rxjs';
 
+import { RickService } from './../../services/rick.service';
+import { Character } from './../../interfaces/rick.interface';
+import { map, shareReplay } from 'rxjs/operators';
 
 @Component({
   selector: 'app-character',
   templateUrl: './character.component.html',
-  styleUrls: ['./character.component.css']
+  styleUrls: ['./character.component.css'],
 })
 export class CharacterComponent implements OnInit {
   title = 'Personajes de la serie "Rick And Morty"';
@@ -15,8 +17,17 @@ export class CharacterComponent implements OnInit {
   characters$!: Observable<Character[]>;
   next = 1;
   search = '';
+  isHandset$: Observable<boolean> = this.breakpointObserver.observe(
+    Breakpoints.Handset
+  ).pipe(
+    map(result => result.matches),
+    shareReplay()
+  );
 
-  constructor(private rick: RickService ) {}
+  constructor(
+    private rick: RickService,
+    private breakpointObserver: BreakpointObserver
+  ) {}
 
   ngOnInit() {
     this.filterCharacter();
@@ -50,5 +61,4 @@ export class CharacterComponent implements OnInit {
     this.next = 1;
     this.characters$ = this.rick.filterCharacter(this.search, this.next);
   }
-
 }
