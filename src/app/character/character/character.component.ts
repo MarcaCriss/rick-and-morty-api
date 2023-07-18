@@ -25,7 +25,7 @@ export class CharacterComponent implements OnInit {
   );
 
   constructor(
-    private rick: RickService,
+    private rickService: RickService,
     private breakpointObserver: BreakpointObserver
   ) {}
 
@@ -33,12 +33,12 @@ export class CharacterComponent implements OnInit {
     this.filterCharacter();
   }
 
-  pagesPlus() {
+  nextPage() {
     this.next++;
     this.filterCharacter();
   }
 
-  pagesMinus() {
+  previousPage() {
     if (this.next > 1) {
       this.next--;
       this.filterCharacter();
@@ -46,19 +46,19 @@ export class CharacterComponent implements OnInit {
   }
 
   get pages() {
-    return this.rick.pages;
+    return this.rickService.pages;
   }
 
   getCharacter(id: number) {
-    this.character$ = this.rick.getCharacter(id);
+    this.character$ = this.rickService.getCharacter(id);
   }
 
   filterCharacter() {
-    this.characters$ = this.rick.filterCharacter(this.search, this.next);
+    this.characters$ = this.rickService.filterCharacter(this.search, this.next);
   }
 
   changeValueSearch() {
     this.next = 1;
-    this.characters$ = this.rick.filterCharacter(this.search, this.next);
+    this.characters$ = this.rickService.filterCharacter(this.search, this.next);
   }
 }

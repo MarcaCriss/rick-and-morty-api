@@ -50,11 +50,11 @@
   <br />
   <nav aria-label="Page navigation example">
     <ul class="pagination justify-content-end">
-      <li class="page-item" [ngClass]="{ disabled: next === 1 }">
-        <a role="button" class="page-link" (click)="pagesMinus()"> Anterior </a>
+      <li class="page-item" [ngClass]="{ 'disabled': next === 1 }">
+        <a role="button" class="page-link" (click)="previousPage()"> Anterior </a>
       </li>
-      <li class="page-item" [ngClass]="{ disabled: pages === next }">
-        <a role="button" class="page-link" (click)="pagesPlus()"> Siguiente </a>
+      <li class="page-item" [ngClass]="{ 'disabled': pages === next }">
+        <a role="button" class="page-link" (click)="nextPage()"> Siguiente </a>
       </li>
     </ul>
   </nav>
